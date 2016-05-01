@@ -1,0 +1,13 @@
+{
+    "name": "srikar/pubnub-chat",
+    "description": "simple pubnub group chat.",
+    "require": {
+        "pubnub/pubnub": "^3.8"
+    },
+    "authors": [
+        {
+            "name": "srikar durgi",
+            "email": "sdurgi17@gmail.com"
+        }
+    ]
+}

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.2/css/bootstrap.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
+     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="https://cdn.pubnub.com/pubnub-3.14.5.min.js"></script>
+</head>
+<body>
+<script type="text/javascript">
+$(document).ready(function(){
+
+});    
+function publish() {
+ 
+    pubnub = PUBNUB({
+        publish_key : 'demo',
+        subscribe_key : 'demo'
+    })
+     
+    console.log("Subscribing..");
+    pubnub.subscribe({                                     
+        channel : "hello_world",
+        message : function (message, envelope, channelOrGroup, time, channel) {
+            console.log(
+                "Message Received." + "\n" +
+                "Channel or Group : " + JSON.stringify(channelOrGroup) + "\n" +
+                "Channel : " + JSON.stringify(channel) + "\n" +
+                "Message : " + JSON.stringify(message) + "\n" +
+                "Time : " + time + "\n" +
+                "Raw Envelope : " + JSON.stringify(envelope)
+            )
+        },
+        connect : pub
+    })
+ 
+    function pub() {
+        console.log("Since we're publishing on subscribe connectEvent, we're sure we'll receive the following publish.");
+        pubnub.publish({
+            channel : "hello_world",
+            message : "Hello from PubNub Docs!",
+            callback : function(m){
+                console.log(m)
+            }
+        })
+    }
+};
+
+publish();
+</script>
+
+</script>
+   
+    <h1>Pubnub Chat</h1>
+</body>
+
+</html>
