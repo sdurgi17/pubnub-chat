@@ -9,19 +9,18 @@
 <body>
 <script type="text/javascript">
 $(document).ready(function(){
-
-});    
-function publish() {
+    function publish() {
  
     pubnub = PUBNUB({
-        publish_key : 'demo',
-        subscribe_key : 'demo'
+        publish_key : false,
+        subscribe_key : 'sub-c-359e78d4-0ddf-11e6-a6c8-0619f8945a4f'
     })
      
     console.log("Subscribing..");
     pubnub.subscribe({                                     
-        channel : "hello_world",
+        channel : "group_chat",
         message : function (message, envelope, channelOrGroup, time, channel) {
+
             console.log(
                 "Message Received." + "\n" +
                 "Channel or Group : " + JSON.stringify(channelOrGroup) + "\n" +
@@ -30,8 +29,9 @@ function publish() {
                 "Time : " + time + "\n" +
                 "Raw Envelope : " + JSON.stringify(envelope)
             )
+            $('#chatlist').append('<li>' + JSON.stringify(message) +'</li>')
+            
         },
-        connect : pub
     })
  
     function pub() {
@@ -45,13 +45,40 @@ function publish() {
         })
     }
 };
-
 publish();
+$('#chatlist').append('<li> insert from jquery </li>')
+$("#submit").click(function(){
+    console.log($('#chatinput').val())
+    message = $('#chatinput').val()
+
+    $.ajax({
+    type: 'POST',
+    data: {
+        message: message
+    },
+    url: "/publish",  
+    success: function(data) {
+      console.log('published data')
+    }
+  });
+});
+
+
+});    
+
 </script>
 
 </script>
-   
     <h1>Pubnub Chat</h1>
+    <div id='chatbox'>
+    <ol id="chatlist">
+        <li>insert from html</li>
+    </ol>
+    </div>
+    <div>
+        <input type="text" id="chatinput"></input>
+        <button id='submit'>submit</button>
+    </div>
 </body>
 
 </html>
